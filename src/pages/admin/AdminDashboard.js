@@ -403,6 +403,7 @@ function AddManagerPage() {
               <input type={f.type} value={form[f.key]} onChange={e => setForm({ ...form, [f.key]: e.target.value })}
                 className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
                 required={f.key !== 'phone'} />
+                    {loading && <p>Loading...</p>} 
             </div>
           ))}
           <button type="submit" disabled={loading}

@@ -278,6 +278,7 @@ function AIAssistantPage() {
         </div>
 
         <div className="flex-1 overflow-y-auto px-5 py-4 space-y-3">
+  {loading && <p>Loading...</p>}   {/* ✅ ADD HERE */}
           {messages.map((msg, i) => (
             <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
               <div className={`max-w-xs sm:max-w-sm px-4 py-2.5 rounded-2xl text-sm whitespace-pre-wrap ${

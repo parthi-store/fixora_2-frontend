@@ -235,7 +235,7 @@ function AIAssistantPage() {
     { role: 'assistant', content: "👋 Hi! I'm Fixora AI. Ask me anything about your platform data — pending salaries, top technicians, active jobs, and more!" }
   ]);
   const [input, setInput] = useState('');
-  const [loading, setLoading] = useState(false);
+  
   const messagesEndRef = useRef(null);
 
   const SUGGESTIONS = [

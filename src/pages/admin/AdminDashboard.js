@@ -248,18 +248,51 @@ function AIAssistantPage() {
     'Manager performance',
   ];
 
-  const sendMessage = async (text) => {
-    const q = text || input;
-    if (!q.trim()) return;
-    setInput('');
-    const history = messages.filter(m => m.role !== 'assistant' || messages.indexOf(m) > 0);
-    setMessages(prev => [...prev, { role: 'user', content: q }]);
-    setLoading(true);
-    try {
-      const { data } = await adminAPI.aiChat({ question: q, history });
-      setMessages(prev => [...prev, { role: 'assistant', content: data.answer, source: data.source }]);
-    } catch {
-      setMessages(prev => [...prev, { role: 'assistant', content: '❌ Sorry, I could not process that request.' }]);
+ const sendMessage = async (text) => {
+  const q = text || input;
+  if (!q.trim()) return;
+
+  if (loading) return; // ✅ just stop function, don't return JSX
+
+  setInput('');
+
+  const history = messages.filter(
+    (m, i) => m.role !== 'assistant' || i > 0
+  );
+
+  setMessages(prev => [
+    ...prev,
+    { role: 'user', content: q }
+  ]);
+
+  setLoading(true);
+
+  try {
+    const { data } = await adminAPI.aiChat({
+      question: q,
+      history
+    });
+
+    setMessages(prev => [
+      ...prev,
+      {
+        role: 'assistant',
+        content: data.answer,
+        source: data.source
+      }
+    ]);
+  } catch {
+    setMessages(prev => [
+      ...prev,
+      {
+        role: 'assistant',
+        content: '❌ Sorry, I could not process that request.'
+      }
+    ]);
+  } finally {
+    setLoading(false);
+  }
+};
     } finally { setLoading(false); }
     setTimeout(() => messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
   };

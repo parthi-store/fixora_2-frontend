@@ -252,7 +252,7 @@ function AIAssistantPage() {
   const q = text || input;
   if (!q.trim()) return;
 
-  if (loading) return; // ✅ just stop function, don't return JSX
+  if (loading) return; 
 
   setInput('');
 
@@ -266,32 +266,26 @@ function AIAssistantPage() {
   ]);
 
   setLoading(true);
+try {
+  const { data } = await adminAPI.aiChat({
+    question: q,
+    history
+  });
 
-  try {
-    const { data } = await adminAPI.aiChat({
-      question: q,
-      history
-    });
+  setMessages(prev => [
+    ...prev,
+    { role: 'assistant', content: data.answer, source: data.source }
+  ]);
 
-    setMessages(prev => [
-      ...prev,
-      {
-        role: 'assistant',
-        content: data.answer,
-        source: data.source
-      }
-    ]);
-  } catch {
-    setMessages(prev => [
-      ...prev,
-      {
-        role: 'assistant',
-        content: '❌ Sorry, I could not process that request.'
-      }
-    ]);
-  } finally {
-    setLoading(false);
-  }
+} catch (err) {
+  setMessages(prev => [
+    ...prev,
+    { role: 'assistant', content: '❌ Sorry, I could not process that request.' }
+  ]);
+
+} finally {
+  setLoading(false);
+}
 };
     } finally { setLoading(false); }
     setTimeout(() => messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);

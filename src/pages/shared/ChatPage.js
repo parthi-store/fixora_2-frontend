@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+
 import toast from 'react-hot-toast';
 import { chatAPI } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';

@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
@@ -235,7 +236,7 @@ function AIAssistantPage() {
     { role: 'assistant', content: "👋 Hi! I'm Fixora AI. Ask me anything about your platform data — pending salaries, top technicians, active jobs, and more!" }
   ]);
   const [input, setInput] = useState('');
-  
+  const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
   const SUGGESTIONS = [
